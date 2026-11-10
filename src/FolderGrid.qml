@@ -58,8 +58,8 @@ GridView {
         anchors.fill: parent
         acceptedButtons: Qt.NoButton
         onWheel: (wheel) => {
-            const step = Math.max(1600, Math.round(grid.height * 2.0))
-            const dy = wheel.pixelDelta.y !== 0 ? wheel.pixelDelta.y * 4 : (wheel.angleDelta.y / 120) * step
+            const step = grid.cellHeight * 2
+            const dy = wheel.pixelDelta.y !== 0 ? wheel.pixelDelta.y : (wheel.angleDelta.y / 120) * step
             const maxScroll = Math.max(0, grid.contentHeight - grid.height)
             grid.contentY = Math.max(0, Math.min(maxScroll, grid.contentY - dy))
             wheel.accepted = true

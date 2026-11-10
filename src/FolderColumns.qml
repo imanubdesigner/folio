@@ -71,8 +71,8 @@ Item {
             anchors.fill: parent
             acceptedButtons: Qt.NoButton
             onWheel: (wheel) => {
-                const step = 1000
-                const dx = wheel.pixelDelta.x !== 0 ? wheel.pixelDelta.x * 4 : (wheel.angleDelta.x / 120) * step
+                const step = view.columnWidth
+                const dx = wheel.pixelDelta.x !== 0 ? wheel.pixelDelta.x : (wheel.angleDelta.x / 120) * step
                 if (dx !== 0) {
                     const maxScroll = Math.max(0, flick.contentWidth - flick.width)
                     flick.contentX = Math.max(0, Math.min(maxScroll, flick.contentX - dx))
@@ -109,11 +109,15 @@ Item {
                             anchors.fill: parent
                             acceptedButtons: Qt.NoButton
                             onWheel: (wheel) => {
-                                const step = Math.max(1200, Math.round(column.height * 1.6))
-                                const dy = wheel.pixelDelta.y !== 0 ? wheel.pixelDelta.y * 4 : (wheel.angleDelta.y / 120) * step
-                                const maxScroll = Math.max(0, column.contentHeight - column.height)
-                                column.contentY = Math.max(0, Math.min(maxScroll, column.contentY - dy))
-                                wheel.accepted = true
+                                const step = 192
+                                const dy = wheel.pixelDelta.y !== 0 ? wheel.pixelDelta.y : (wheel.angleDelta.y / 120) * step
+                                if (dy !== 0) {
+                                    const maxScroll = Math.max(0, column.contentHeight - column.height)
+                                    column.contentY = Math.max(0, Math.min(maxScroll, column.contentY - dy))
+                                    wheel.accepted = true
+                                } else {
+                                    wheel.accepted = false
+                                }
                             }
                         }
                         model: FolderModel {
@@ -165,11 +169,15 @@ Item {
                     anchors.fill: parent
                     acceptedButtons: Qt.NoButton
                     onWheel: (wheel) => {
-                        const step = Math.max(1200, Math.round(here.height * 1.6))
-                        const dy = wheel.pixelDelta.y !== 0 ? wheel.pixelDelta.y * 4 : (wheel.angleDelta.y / 120) * step
-                        const maxScroll = Math.max(0, here.contentHeight - here.height)
-                        here.contentY = Math.max(0, Math.min(maxScroll, here.contentY - dy))
-                        wheel.accepted = true
+                        const step = 192
+                        const dy = wheel.pixelDelta.y !== 0 ? wheel.pixelDelta.y : (wheel.angleDelta.y / 120) * step
+                        if (dy !== 0) {
+                            const maxScroll = Math.max(0, here.contentHeight - here.height)
+                            here.contentY = Math.max(0, Math.min(maxScroll, here.contentY - dy))
+                            wheel.accepted = true
+                        } else {
+                            wheel.accepted = false
+                        }
                     }
                 }
 
@@ -229,11 +237,15 @@ Item {
                     anchors.fill: parent
                     acceptedButtons: Qt.NoButton
                     onWheel: (wheel) => {
-                        const step = Math.max(1200, Math.round(inside.height * 1.6))
-                        const dy = wheel.pixelDelta.y !== 0 ? wheel.pixelDelta.y * 4 : (wheel.angleDelta.y / 120) * step
-                        const maxScroll = Math.max(0, inside.contentHeight - inside.height)
-                        inside.contentY = Math.max(0, Math.min(maxScroll, inside.contentY - dy))
-                        wheel.accepted = true
+                        const step = 192
+                        const dy = wheel.pixelDelta.y !== 0 ? wheel.pixelDelta.y : (wheel.angleDelta.y / 120) * step
+                        if (dy !== 0) {
+                            const maxScroll = Math.max(0, inside.contentHeight - inside.height)
+                            inside.contentY = Math.max(0, Math.min(maxScroll, inside.contentY - dy))
+                            wheel.accepted = true
+                        } else {
+                            wheel.accepted = false
+                        }
                     }
                 }
                 TapHandler {
