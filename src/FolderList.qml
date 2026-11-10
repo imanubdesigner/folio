@@ -34,6 +34,18 @@ ColumnLayout {
         model: backend.folder
         ScrollBar.vertical: FolioScrollBar { }
 
+        MouseArea {
+            anchors.fill: parent
+            acceptedButtons: Qt.NoButton
+            onWheel: (wheel) => {
+                const step = Math.max(1200, Math.round(list.height * 1.6))
+                const dy = wheel.pixelDelta.y !== 0 ? wheel.pixelDelta.y * 4 : (wheel.angleDelta.y / 120) * step
+                const maxScroll = Math.max(0, list.contentHeight - list.height)
+                list.contentY = Math.max(0, Math.min(maxScroll, list.contentY - dy))
+                wheel.accepted = true
+            }
+        }
+
         onCurrentIndexChanged: selecting.cursorMoved()
         Keys.onPressed: (event) => {
             if (!(event.modifiers & Qt.ShiftModifier))

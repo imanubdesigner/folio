@@ -67,6 +67,22 @@ Item {
         onWidthChanged: view.revealEnd()
         ScrollBar.horizontal: FolioScrollBar { }
 
+        MouseArea {
+            anchors.fill: parent
+            acceptedButtons: Qt.NoButton
+            onWheel: (wheel) => {
+                const step = 1000
+                const dx = wheel.pixelDelta.x !== 0 ? wheel.pixelDelta.x * 4 : (wheel.angleDelta.x / 120) * step
+                if (dx !== 0) {
+                    const maxScroll = Math.max(0, flick.contentWidth - flick.width)
+                    flick.contentX = Math.max(0, Math.min(maxScroll, flick.contentX - dx))
+                    wheel.accepted = true
+                } else {
+                    wheel.accepted = false
+                }
+            }
+        }
+
         Row {
             id: row
             height: flick.height
@@ -88,6 +104,18 @@ Item {
                         interactive: false
                         boundsBehavior: Flickable.StopAtBounds
                         ScrollBar.vertical: FolioScrollBar { }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            acceptedButtons: Qt.NoButton
+                            onWheel: (wheel) => {
+                                const step = Math.max(1200, Math.round(column.height * 1.6))
+                                const dy = wheel.pixelDelta.y !== 0 ? wheel.pixelDelta.y * 4 : (wheel.angleDelta.y / 120) * step
+                                const maxScroll = Math.max(0, column.contentHeight - column.height)
+                                column.contentY = Math.max(0, Math.min(maxScroll, column.contentY - dy))
+                                wheel.accepted = true
+                            }
+                        }
                         model: FolderModel {
                             id: folder
                             path: ancestor.path
@@ -132,6 +160,18 @@ Item {
                 highlightFollowsCurrentItem: false
                 model: backend.folder
                 ScrollBar.vertical: FolioScrollBar { }
+
+                MouseArea {
+                    anchors.fill: parent
+                    acceptedButtons: Qt.NoButton
+                    onWheel: (wheel) => {
+                        const step = Math.max(1200, Math.round(here.height * 1.6))
+                        const dy = wheel.pixelDelta.y !== 0 ? wheel.pixelDelta.y * 4 : (wheel.angleDelta.y / 120) * step
+                        const maxScroll = Math.max(0, here.contentHeight - here.height)
+                        here.contentY = Math.max(0, Math.min(maxScroll, here.contentY - dy))
+                        wheel.accepted = true
+                    }
+                }
 
                 TapHandler {
                     acceptedButtons: Qt.RightButton
@@ -184,6 +224,18 @@ Item {
                 interactive: false
                 boundsBehavior: Flickable.StopAtBounds
                 ScrollBar.vertical: FolioScrollBar { }
+
+                MouseArea {
+                    anchors.fill: parent
+                    acceptedButtons: Qt.NoButton
+                    onWheel: (wheel) => {
+                        const step = Math.max(1200, Math.round(inside.height * 1.6))
+                        const dy = wheel.pixelDelta.y !== 0 ? wheel.pixelDelta.y * 4 : (wheel.angleDelta.y / 120) * step
+                        const maxScroll = Math.max(0, inside.contentHeight - inside.height)
+                        inside.contentY = Math.max(0, Math.min(maxScroll, inside.contentY - dy))
+                        wheel.accepted = true
+                    }
+                }
                 TapHandler {
                     acceptedButtons: Qt.RightButton
                     onTapped: (point) => {
